@@ -1,0 +1,21 @@
+export const Images = {
+  orchid: {
+    orchid1: require("../assets/orchid1.png"),
+    orchid2: require("../assets/orchid2.png"),
+    orchid3: require("../assets/orchid3.png"),
+    orchid4: require("../assets/orchid4.png"),
+    orchid1: require("../assets/orchid1.png"),
+    orchid6: require("../assets/orchid6.png"),
+    orchid7: require("../assets/orchid7.png"),
+    orchid8: require("../assets/orchid8.png"),
+    orchid9: require("../assets/orchid9.png"),
+    orchid10: require("../assets/orchid10.png"),
+    orchid11: require("../assets/orchid11.png"),
+    orchid12: require("../assets/orchid12.png"),
+    orchid13: require("../assets/orchid13.png"),
+    orchid14: require("../assets/orchid14.png"),
+    orchid15: require("../assets/orchid15.png"),
+    orchid16: require("../assets/orchid16.png"),
+    orchid17: require("../assets/orchid17.png"),
+  },
+};

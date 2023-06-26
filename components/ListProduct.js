@@ -13,9 +13,11 @@ import AppColor from "../consts/colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { useIsFocused } from "@react-navigation/native";
+import Animated from "react-native-reanimated";
 
 export default function ListProduct({ data }) {
   const [favData, setFavData] = useState([]);
+  const [scaleValue, setScaleValue] = useState(new Animated.Value(1));
   const navigation = useNavigation();
   const isFocused = useIsFocused();
 
@@ -25,8 +27,34 @@ export default function ListProduct({ data }) {
 
   const getFromStorage = async () => {
     const data = await AsyncStorage.getItem("favorite");
-    setFavData(data != null ? JSON.parse(data) : []);
+    setFavData(data != null || data != undefined ? JSON.parse(data) : []);
   };
+
+  const setDataToStorage = async (id) => {
+    let list;
+    if (favData == []) {
+      list = [id];
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    } else {
+      list = [...favData, id];
+      await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    }
+    setFavData(list);
+  };
+
+  const removeDataFromStorage = async (id) => {
+    const list = favData.filter((item) => item !== id);
+    await AsyncStorage.setItem("favorite", JSON.stringify(list));
+    setFavData(list);
+  };
+
+  function favoriteButton(id) {
+    if (favData.includes(id)) {
+      removeDataFromStorage(id);
+    } else {
+      setDataToStorage(id);
+    }
+  }
 
   function onPressFunction(id) {
     navigation.navigate("Detail", { orchidId: id });
@@ -39,24 +67,6 @@ export default function ListProduct({ data }) {
           style={styles.innerContainer}
           onPress={onPressFunction.bind(this, item.id)}
         >
-          {favData.includes(item.id) ? (
-            <Ionicons
-              style={{
-                position: "absolute",
-                top: 0,
-                right: "4%",
-                backgroundColor: "#d8dfff",
-                padding: 5,
-                borderRadius: 16,
-                overflow: "hidden",
-              }}
-              name="heart"
-              size={20}
-              color="red"
-            />
-          ) : (
-            <></>
-          )}
           <View style={styles.left}>
             <Image
               resizeMode="cover"
@@ -98,6 +108,24 @@ export default function ListProduct({ data }) {
             </View>
           </View>
         </TouchableOpacity>
+        <Pressable
+          style={{
+            position: "absolute",
+            top: 10,
+            right: "4%",
+            backgroundColor: "rgba(0,0,0,0.05)",
+            padding: 5,
+            borderRadius: 16,
+            overflow: "hidden",
+          }}
+          onPress={() => favoriteButton(item.id)}
+        >
+          {favData.includes(item.id) ? (
+            <Ionicons name="heart" size={20} color="red" />
+          ) : (
+            <Ionicons name="heart-outline" size={20} color="grey" />
+          )}
+        </Pressable>
       </View>
     );
   }

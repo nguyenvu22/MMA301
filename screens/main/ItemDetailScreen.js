@@ -36,7 +36,7 @@ export default function ItemDetailScreen({ navigation, route }) {
 
   const getFromStorage = async () => {
     const data = await AsyncStorage.getItem("favorite");
-    setFavData(data != null ? JSON.parse(data) : []);
+    setFavData(data != null || data != undefined ? JSON.parse(data) : []);
   };
 
   const setDataToStorage = async () => {
@@ -81,6 +81,10 @@ export default function ItemDetailScreen({ navigation, route }) {
     }
   }
 
+  function goBackFunction() {
+    navigation.navigate("Home");
+  }
+
   return (
     <ScrollView style={{ flex: 1 }}>
       <View style={styles.rootContainer}>
@@ -95,7 +99,7 @@ export default function ItemDetailScreen({ navigation, route }) {
             style={styles.backIcon}
             name="chevron-back-outline"
             size={40}
-            onPress={() => navigation.goBack()}
+            onPress={() => goBackFunction()}
           />
         </View>
         <View style={styles.footerContainer}>

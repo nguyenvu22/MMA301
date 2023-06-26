@@ -155,7 +155,13 @@ export default function App() {
             component={DrawerNavigators}
             options={{ headerShown: false }}
           />
-          <Stack.Screen name="Detail" component={ItemDetailScreen} />
+          <Stack.Screen
+            name="Detail"
+            component={ItemDetailScreen}
+            options={{
+              gestureEnabled: false,
+            }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>
